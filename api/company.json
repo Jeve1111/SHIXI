@@ -1,0 +1,73 @@
+{
+  "code": 0,
+  "msg": "",
+  "count": 10,
+  "data": [
+    {
+      "id": 1,
+      "cname": "北京柯蓝科技有限公司",
+      "city": "北京",
+      "trade": "计算机金融",
+      "leader": "刘海海",
+      "telephone": "15012312312",
+      "status": "合作中",
+      "job": "Java开发"
+
+    },
+    {
+      "id": 2,
+      "cname": "北京思特奇股份有限公司",
+      "city": "北京",
+      "trade": "通信行业",
+      "leader": "刘下下",
+      "telephone": "15012312312",
+      "status": "合作中",
+      "job": "Java开发"
+
+    },
+    {
+      "id": 3,
+      "cname": "大连华宇科技有限公司",
+      "city": "大连",
+      "trade": "通信行业",
+      "leader": "刘下下",
+      "telephone": "15012312312",
+      "status": "合作中",
+      "job": "Java开发"
+
+    },
+    {
+      "id": 4,
+      "cname": "成都银海软件科技有限公司",
+      "city": "成都",
+      "trade": "金融行业",
+      "leader": "刘下下",
+      "telephone": "15012312312",
+      "status": "合作中",
+      "job": "Java开发"
+
+    },
+    {
+      "id": 5,
+      "cname": "山东国子科技有限公司",
+      "city": "山东",
+      "trade": "物联网",
+      "leader": "刘下下",
+      "telephone": "15012312312",
+      "status": "合作中",
+      "job": "Java开发"
+
+    },
+    {
+      "id": 6,
+      "cname": "山东国子科技有限公司",
+      "city": "山东",
+      "trade": "物联网",
+      "leader": "刘下下",
+      "telephone": "15012312312",
+      "status": "合作中",
+      "job": "Java开发"
+
+    }
+  ]
+}
