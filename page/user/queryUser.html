@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>查询用户</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link rel="stylesheet" href="../../lib/layui-v2.5.5/css/layui.css" media="all">
+    <link rel="stylesheet" href="../../css/public.css" media="all">
+</head>
+<body>
+<div class="layuimini-container">
+    <div class="layuimini-main">
+
+        <fieldset class="table-search-fieldset">
+            <fieldset class="layui-elem-field layui-field-title">
+                <legend><b>管理员维护</b></legend>
+            </fieldset>
+            <div style="margin: 10px 10px 10px 10px">
+                <form class="layui-form layui-form-pane" action="">
+                    <div class="layui-form-item">
+                        <div class="layui-inline">
+                            <label class="layui-form-label">姓名</label>
+                            <div class="layui-input-inline">
+                                <input type="text" name="username" autocomplete="off" class="layui-input" placeholder="请输入姓名">
+                            </div>
+                            <label class="layui-form-label">管理员</label>
+                            <div class="layui-input-inline">
+                                <input type="text" name="username" autocomplete="off" class="layui-input" placeholder="请输入管理员名称">
+                            </div>
+
+
+                        </div>
+
+                        <div class="layui-inline">
+                            <label class="layui-form-label">权限</label>
+                            <div class="layui-input-inline">
+                            <select name="quiz1">
+                                <option value="">请选择权限</option>
+                                <!--<option value="超级权限">超级权限</option>-->
+                                <option value="一级权限">一级权限</option>
+                                <option value="二级权限">二级权限</option>
+                            </select>
+                            </div>
+                        </div>
+
+                        <div class="layui-inline">
+                            <label class="layui-form-label">用户状态</label>
+                            <div class="layui-input-inline">
+                                <select name="quiz3">
+                                    <option value="">请选择用户状态</option>
+                                    <option value="正常">正常</option>
+                                    <option value="冻结">冻结</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <button type="submit"  class="layui-btn "  lay-submit lay-filter="data-search-btn"><i class="layui-icon" ></i> 搜 索</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </fieldset>
+
+       <!-- <script type="text/html" id="toolbarDemo">
+            <div class="layui-btn-container">
+                <button class="layui-btn layui-btn-normal layui-btn-sm data-add-btn" lay-event="add"> 添加 </button>
+                <button class="layui-btn layui-btn-sm layui-btn-danger data-delete-btn" lay-event="delete"> 删除 </button>
+            </div>
+        </script>-->
+
+        <table class="layui-hide" id="currentTableId" lay-filter="currentTableFilter"></table>
+
+        <script type="text/html" id="state">
+            <div class="layui-input-block" style="right: 100px">
+                <input type="checkbox" name="close" lay-skin="switch" lay-text="正常|冻结" checked="true">
+            </div>
+
+        </script>
+        <script type="text/html" id="quanxian">
+            <div class="layui-input-block" style="right: 100px ">
+                <input type="checkbox" name="close" lay-skin="switch" lay-text="一级权限|二级权限" checked="true">
+            </div>
+
+        </script>
+        <script type="text/html" id="currentTableBar">
+            <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="detail">查看</a>
+            <a class="layui-btn  layui-btn-xs data-count-edit" lay-event="edit">修改</a>
+            <a class="layui-btn layui-btn-xs layui-btn-danger data-count-delete" lay-event="delete">删除</a>
+        </script>
+
+    </div>
+</div>
+<script src="../../lib/layui-v2.5.5/layui.js" charset="utf-8"></script>
+<script>
+    layui.use(['form', 'table'], function () {
+        var $ = layui.jquery,
+            form = layui.form,
+            table = layui.table;
+
+        table.render({
+            elem: '#currentTableId',
+            url: '../../api/queryUser.json',
+            toolbar: '#toolbarDemo',
+            defaultToolbar: ['filter', 'exports', 'print'],
+            cols: [[
+                {field: 'number', width: 80, title: '序号'},
+                {field: 'username', width: 120, title: '用户名'},
+                {field: 'name', width: 150, title: '名称', sort: false},
+                {field: 'phone', width: 180, title: '联系方式'},
+                {field: 'qq', title: 'QQ', width: 190},
+                {field: 'wechet', width: 190, title: '微信', sort: false},
+                {field: 'job', width:150, title: '职位', sort: false},
+                {field: 'creat', width: 190, title: '创建时间'},
+                {field:'state',width: 105, title: '用户状态', toolbar:'#state',align: 'center',unresize: true},
+                {field:'quanxian',width: 105, title: '权限', toolbar:'#quanxian',align: 'center',unresize: true},
+
+            ]],
+            limits: [10, 15, 20, 25, 50, 100],
+            limit: 15,
+            page: true,
+           /* skin: 'line'*/
+        });
+
+        // 监听搜索操作
+        form.on('submit(data-search-btn)', function (data) {
+            var result = JSON.stringify(data.field);
+            layer.alert(result, {
+                title: '最终的搜索信息'
+            });
+
+            //执行搜索重载
+            table.reload('currentTableId', {
+                page: {
+                    curr: 1
+                }
+                , where: {
+                    searchParams: result
+                }
+            }, 'data');
+
+            return false;
+        });
+
+        /**
+         * toolbar监听事件
+         */
+        table.on('toolbar(currentTableFilter)', function (obj) {
+            if (obj.event === 'add') {  // 监听添加操作
+                var index = layer.open({
+                    title: '添加用户',
+                    type: 2,
+                    shade: 0.2,
+                    maxmin:true,
+                    shadeClose: true,
+                    area: ['100%', '100%'],
+                    content: 'addUser.html',
+                });
+                $(window).on("resize", function () {
+                    layer.full(index);
+                });
+            } else if (obj.event === 'delete') {  // 监听删除操作
+                var checkStatus = table.checkStatus('currentTableId')
+                    , data = checkStatus.data;
+                layer.confirm('确定删除吗？',{btn:['确定','取消']},
+                function () {
+                    obj._delCol(checkStatus);
+                },function () {
+                    alert("你好")
+                    });
+                layer.alert(JSON.stringify(data));
+                /*table.on('checkbox(currentTableFilter)', function (obj) {
+                    console.log(obj)
+                });
+                layer.confirm('真的删除行么', function (index) {
+                    obj.del(index);
+                    layer.close(index);
+                });*/
+            }
+        });
+
+        //监听表格复选框选择
+        table.on('checkbox(currentTableFilter)', function (obj) {
+            console.log(obj)
+        });
+
+        table.on('tool(currentTableFilter)', function (obj) {
+            var data = obj.data;
+            if (obj.event === 'edit') {
+                var index = layer.open({
+                    title: '修改用户',
+                    type: 2,
+                    shade: 0.2,
+                    maxmin:true,
+                    shadeClose: true,
+                    area: ['100%', '100%'],
+                    content: 'editUser.html',
+                });
+                $(window).on("resize", function () {
+                    layer.full(index);
+                });
+                return false;
+            } else if (obj.event === 'delete') {
+                layer.confirm('真的删除行么', function (index) {
+                    obj.del();
+                    layer.close(index);
+                });
+            }else if (obj.event === 'detail') {
+
+                var index = layer.open({
+                    title: '修改用户',
+                    type: 2,
+                    shade: 0.2,
+                    maxmin:true,
+                    shadeClose: true,
+                    area: ['100%', '100%'],
+                    content: 'queryDetialUser.html',
+                });
+                $(window).on("resize", function () {
+                    layer.full(index);
+                });
+                return false;
+            }
+        });
+
+    });
+    layui.use('laydate', function(){
+        var laydate = layui.laydate;
+        var initYear;
+        laydate.render({
+            elem: '#year',
+            type: 'year',
+            trigger:'click',
+            /* ready和change函数是为了实现选择年份时不用点确定直接关闭  */
+            ready: function(date){ // 控件在打开时触发，回调返回一个参数：初始的日期时间对象
+                initYear = date.year;
+            },
+            change: function(value, date, endDate){ // 年月日时间被切换时都会触发。回调返回三个参数，分别代表：生成的值、日期时间对象、结束的日期时间对象
+                var selectYear = date.year;
+                var differ = selectYear-initYear;
+                if (differ != 15 && differ != -15) {
+                    if($(".layui-laydate").length){
+                        $("#year").val(value);
+                        $(".layui-laydate").remove();
+                    }
+                }
+                initYear = selectYear;
+            }
+        });
+    });
+
+</script>
+</body>
+</html>
